@@ -214,7 +214,9 @@ def process_friend(friend, session, count, specific_RSS=[]):
     返回：
     dict: 包含朋友博客信息的字典。
     """
-    name, blog_url, avatar = friend
+    name = friend['title']
+    blog_url = friend['url']
+    avatar = friend['avatar']
     
     # 如果 specific_RSS 中有对应的 name，则直接返回 feed_url
     if specific_RSS is None:
@@ -278,7 +280,7 @@ def fetch_and_process_data(json_url, specific_RSS=[], count=5):
         print(f"无法获取该链接：{json_url}, 出现的问题为：{e}")
         return None
 
-    total_friends = len(friends_data['friends'])
+    total_friends = len(friends_data['content'])
     active_friends = 0
     error_friends = 0
     total_articles = 0
@@ -288,7 +290,7 @@ def fetch_and_process_data(json_url, specific_RSS=[], count=5):
     with ThreadPoolExecutor(max_workers=10) as executor:
         future_to_friend = {
             executor.submit(process_friend, friend, session, count, specific_RSS): friend
-            for friend in friends_data['friends']
+            for friend in friends_data['content']
         }
         
         for future in as_completed(future_to_friend):
