@@ -303,7 +303,7 @@ def fetch_and_process_data(json_url, specific_RSS=[], count=5, expire_date=60):
                 if result['status'] == 'active':
                     filtered_articles = [
                         article for article in result['articles']
-                        if datetime.strptime(article['created'], '%Y-%m-%d %H:%M') > expire_threshold
+                        if expire_date == 0 or datetime.strptime(article['created'], '%Y-%m-%d %H:%M') > expire_threshold
                     ]
                     active_friends += 1
                     article_data.extend(filtered_articles)
