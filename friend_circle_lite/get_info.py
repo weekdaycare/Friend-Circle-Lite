@@ -355,6 +355,9 @@ def sort_articles_by_time(data):
             key=lambda x: datetime.strptime(x['created'], '%Y-%m-%d %H:%M'),
             reverse=True
         )
+        # 更新日期格式
+        for article in sorted_articles:
+            article['created'] = datetime.strptime(article['created'], '%Y-%m-%d %H:%M').strftime('%m-%d')
         data['article_data'] = sorted_articles
     return data
 
