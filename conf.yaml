@@ -10,6 +10,7 @@ spider_settings:
   enable: true
   json_url: "https://raw.githubusercontent.com/weekdaycare/friends/refs/heads/output/v2/data.json"
   article_count: 5
+  expire_date: 45
   merge_result:
     enable: false
     merge_json_url: ""

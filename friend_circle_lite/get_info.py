@@ -259,7 +259,7 @@ def process_friend(friend, session, count, specific_RSS=[]):
             'articles': []
         }
 
-def fetch_and_process_data(json_url, specific_RSS=[], count=5):
+def fetch_and_process_data(json_url, specific_RSS=[], count=5, expire_date=60):
     """
     读取 JSON 数据并处理订阅信息，返回统计数据和文章信息。
 
@@ -287,6 +287,9 @@ def fetch_and_process_data(json_url, specific_RSS=[], count=5):
     article_data = []
     error_friends_info = []
 
+    # 计算过期日期
+    expire_threshold = datetime.now() - timedelta(days=expire_date)
+
     with ThreadPoolExecutor(max_workers=10) as executor:
         future_to_friend = {
             executor.submit(process_friend, friend, session, count, specific_RSS): friend
@@ -298,9 +301,13 @@ def fetch_and_process_data(json_url, specific_RSS=[], count=5):
             try:
                 result = future.result()
                 if result['status'] == 'active':
+                    filtered_articles = [
+                        article for article in result['articles']
+                        if datetime.strptime(article['created'], '%Y-%m-%d %H:%M') > expire_threshold
+                    ]
                     active_friends += 1
-                    article_data.extend(result['articles'])
-                    total_articles += len(result['articles'])
+                    article_data.extend(filtered_articles)
+                    total_articles += len(filtered_articles)
                 else:
                     error_friends += 1
                     error_friends_info.append(friend)
