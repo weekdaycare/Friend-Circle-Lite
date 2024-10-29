@@ -37,7 +37,7 @@ jobs:
     - name: Download last_articles.json from 'page' branch
       run: |
         mkdir -p rss_subscribe
-        wget -O rss_subscribe/last_articles.json "https://raw.githubusercontent.com/${{ github.repository }}/page/last_articles.json" || echo '{}' > rss_subscribe/last_articles.json
+        wget -O rss_subscribe/last_articles.json "https://raw.githubusercontent.com/${{ github.repository }}/page/last_articles.json" || echo '{"articles": []}' > rss_subscribe/last_articles.json
     
     - name: Check RSS feeds
       env:
