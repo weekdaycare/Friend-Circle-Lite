@@ -96,8 +96,10 @@ def get_latest_articles_from_link(url, count=5, last_articles_path="./rss_subscr
 
     # 更新本地存储的文章数据
     try:
+        print(f"准备写入文件: {local_file}")
         with open(local_file, 'w', encoding='utf-8') as file:
             json.dump({'articles': latest_articles}, file, ensure_ascii=False, indent=4)
+        print("文件写入成功")
     except Exception as e:
         print(f"写入文件时出错: {e}")
 
