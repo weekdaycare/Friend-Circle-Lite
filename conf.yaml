@@ -39,7 +39,7 @@ rss_subscribe:
   enable: true
   github_username: weekdaycare
   github_repo: Friend-Circle-Lite
-  your_blog_url: https://weekdaycare.github.io/
+  your_blog_url: https://weekdaycare.cn/
   email_template: "./rss_subscribe/email_template.html"
   website_info:
     title: "星日语"
