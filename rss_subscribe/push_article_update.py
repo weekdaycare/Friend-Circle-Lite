@@ -66,17 +66,23 @@ def get_latest_articles_from_link(url, count=5, last_articles_path="./rss_subscr
         return None
 
     # 获取最新的文章数据
-    latest_data = parse_feed(feed_url, session ,count)
+    latest_data = parse_feed(feed_url, session, count)
     latest_articles = latest_data['articles']
-    
+    print(f"获取到的文章数量: {len(latest_articles)}")
+
     # 读取本地存储的上次的文章数据
     if os.path.exists(local_file):
         with open(local_file, 'r', encoding='utf-8') as file:
-            last_data = json.load(file)
+            try:
+                last_data = json.load(file)
+            except json.JSONDecodeError:
+                print("JSON 解码错误，使用空数据")
+                last_data = {'articles': []}
     else:
         last_data = {'articles': []}
-    
-    last_articles = last_data['articles']
+
+    last_articles = last_data.get('articles', [])
+    print(f"本地存储的文章数量: {len(last_articles)}")
 
     # 找到更新的文章
     updated_articles = []
@@ -85,7 +91,7 @@ def get_latest_articles_from_link(url, count=5, last_articles_path="./rss_subscr
     for article in latest_articles:
         if article['link'] not in last_titles:
             updated_articles.append(article)
-    
+
     print(f"从 {url} 获取到 {len(latest_articles)} 篇文章，其中 {len(updated_articles)} 篇为新文章")
 
     # 更新本地存储的文章数据
@@ -94,7 +100,7 @@ def get_latest_articles_from_link(url, count=5, last_articles_path="./rss_subscr
             json.dump({'articles': latest_articles}, file, ensure_ascii=False, indent=4)
     except Exception as e:
         print(f"写入文件时出错: {e}")
-    
+
     # 如果有更新的文章，返回这些文章，否则返回 None
     return updated_articles if updated_articles else None
 
