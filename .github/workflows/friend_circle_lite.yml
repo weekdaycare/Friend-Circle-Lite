@@ -38,7 +38,7 @@ jobs:
       uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
-        branch: page
+        branch: main
         name: 'last_articles'
         path: './rss_subscribe'
         if_no_artifact_found: warn
@@ -66,8 +66,7 @@ jobs:
     - name: Commit changes
       run: |
         mkdir pages
-        mkdir rss_subscribe
-        cp -r main ./static/index.html ./static/readme.md ./static/favicon.ico ./static/bg-light.webp ./static/bg-dark.webp all.json errors.json ./rss_subscribe/last_articles.json pages/
+        cp -r main ./static/index.html ./static/readme.md ./static/favicon.ico ./static/bg-light.webp ./static/bg-dark.webp all.json errors.json pages/
         cd pages
         git init
         git add .
