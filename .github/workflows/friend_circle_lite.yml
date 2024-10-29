@@ -66,6 +66,7 @@ jobs:
     - name: Commit changes
       run: |
         mkdir pages
+        mkdir rss_subscribe
         cp -r main ./static/index.html ./static/readme.md ./static/favicon.ico ./static/bg-light.webp ./static/bg-dark.webp all.json errors.json ./rss_subscribe/last_articles.json pages/
         cd pages
         git init
