@@ -38,7 +38,7 @@ jobs:
       uses: dawidd6/action-download-artifact@v6
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
-        branch: main
+        branch: page
         name: 'last_articles'
         path: './rss_subscribe'
         if_no_artifact_found: warn
@@ -49,13 +49,6 @@ jobs:
       run: |
         python run.py
 
-    - name: Upload last_articles.json as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: 'last_articles'
-        path: './rss_subscribe/last_articles.json'
-        retention-days: 90
-
     - name: git config
       run: |
         git config --global user.name 'github-actions[bot]'
@@ -64,7 +57,7 @@ jobs:
     - name: Commit changes
       run: |
         mkdir pages
-        cp -r main ./static/index.html ./static/readme.md ./static/favicon.ico ./static/bg-light.webp ./static/bg-dark.webp all.json errors.json pages/
+        cp -r main ./static/index.html ./static/readme.md ./static/favicon.ico ./static/bg-light.webp ./static/bg-dark.webp all.json errors.json last_articles.json pages/
         cd pages
         git init
         git add .
