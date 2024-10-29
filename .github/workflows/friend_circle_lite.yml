@@ -34,25 +34,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Checkout page branch
-      uses: actions/checkout@v4
-      with:
-        ref: page
-    
-    - name: Get last_articles.json
+    - name: Download last_articles.json from 'page' branch
       run: |
-        mkdir -p ./rss_subscribe
-        if [ -f last_articles.json ]; then
-          cp last_articles.json ./rss_subscribe/
-        else
-          echo '{}' > ./rss_subscribe/last_articles.json
-        fi
-
-    - name: Checkout main branch again
-      uses: actions/checkout@v4
-      with:
-        ref: main
-
+        mkdir -p rss_subscribe
+        wget -O rss_subscribe/last_articles.json "https://raw.githubusercontent.com/${{ github.repository }}/page/last_articles.json" || echo '{}' > rss_subscribe/last_articles.json
+    
     - name: Check RSS feeds
       env:
         SMTP_PWD: ${{ secrets.SMTP_PWD }}
