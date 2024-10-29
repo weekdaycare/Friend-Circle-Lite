@@ -104,5 +104,6 @@ def get_latest_articles_from_link(url, count=5, last_articles_path="./rss_subscr
         print(f"写入文件时出错: {e}")
 
     # 如果有更新的文章，返回这些文章，否则返回 None
+    print("updated_articles", updated_articles)
     return updated_articles if updated_articles else None
 
