@@ -41,7 +41,11 @@ jobs:
     
     - name: Get last_articles.json
       run: |
-        cp last_articles.json ./rss_subscribe/      
+        if [ -f last_articles.json ]; then
+          cp last_articles.json ./rss_subscribe/
+        else
+          echo '{}' > ./rss_subscribe/last_articles.json
+        fi    
 
     - name: Check RSS feeds
       env:
