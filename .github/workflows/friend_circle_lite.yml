@@ -47,7 +47,12 @@ jobs:
         else
           echo '{}' > ./rss_subscribe/last_articles.json
         fi
-       
+
+    - name: Checkout main branch again
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
     - name: Check RSS feeds
       env:
         SMTP_PWD: ${{ secrets.SMTP_PWD }}
